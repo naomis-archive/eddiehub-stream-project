@@ -1,6 +1,14 @@
-# Project Name
+# Angular + Express + DataStax
 
-Project Description
+Building a fullstack application using Angular, Express and DataStax.
+
+## Quickstart
+
+Project is a mono repo, so we have `client` folder for the frontend and `api` folder for the backend.
+
+1. ... (tbc)
+
+DataStax: http://links.eddiejaoude.io/t/BQe90ur6AYCp 
 
 ## Live Version
 
