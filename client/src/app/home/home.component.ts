@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { FormData } from 'src/interfaces/FormData';
+import { EventsService } from '../events.service';
 
 @Component({
   selector: 'app-home',
@@ -6,10 +8,16 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./home.component.css']
 })
 export class HomeComponent implements OnInit {
+  public data: FormData[]= [];
+  public loaded: boolean = false;
 
-  constructor() { }
+  constructor(private eventService: EventsService) { }
 
   ngOnInit(): void {
+    this.eventService.getEvents().subscribe(data => {
+      this.data = data;
+      this.loaded = true;
+    })
   }
 
 }
