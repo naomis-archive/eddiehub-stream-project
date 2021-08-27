@@ -1,0 +1,28 @@
+<h1>Create new event</h1>
+<p>Placeholder</p>
+<form (ngSubmit)="submit(form.value)" #form="ngForm">
+  <label>
+    Name
+    <input type="text" name="name" ngModel/>
+  </label>
+  <label>
+    Event name
+    <input type="text" name="eventName" ngModel/>
+  </label>
+  <label>
+    Event Date
+    <input type="datetime-local" name="eventDate" ngModel/>
+  </label>
+  <label>
+    Event Description
+    <textarea name="eventDescription" ngModel></textarea>
+  </label>
+  <label>
+    Event URL
+    <input type="text" name="eventUrl" ngModel/>
+  </label>
+  <button type="submit">Clicky</button>
+</form>
+<div *ngIf="submitted">
+  <p>Your event ID is {{id}}!</p>
+</div>
