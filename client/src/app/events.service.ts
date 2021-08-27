@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable, of } from 'rxjs';
 import { FormData } from 'src/interfaces/FormData';
+import { ResponseData } from 'src/interfaces/ResponseData';
 
 @Injectable({
   providedIn: 'root',
@@ -18,7 +19,15 @@ export class EventsService {
       return of(dataFromCache);
     }
     const response = this.http.get<FormData[]>(this.URL);
-    response.subscribe(data => this.cache.set(this.URL, data));
+    response.subscribe((data) => this.cache.set(this.URL, data));
     return response;
+  }
+
+  public postEvent(data: FormData): Observable<ResponseData> {
+    return this.http.post<ResponseData>(this.URL, data, {
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    });
   }
 }
