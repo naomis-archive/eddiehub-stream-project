@@ -1,5 +1,6 @@
 <h1>EddieHub Events!</h1>
 <div *ngIf="loaded">
+  <h2>Total: {{ data.length }}</h2>
   <div *ngFor="let event of data">
     <p><a href={{event.eventUrl}}>{{event.eventName}}</a></p>
     <p>{{event.eventDate}}</p>

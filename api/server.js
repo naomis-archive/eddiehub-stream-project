@@ -1,4 +1,6 @@
 const express = require("express");
+const { createClient } = require("@astrajs/collections");
+
 const app = express();
 const cors = require("cors");
 const port = 3000;
@@ -11,27 +13,41 @@ app.get("/", (req, res) => {
 });
 
 app.post("/events", async (req, res) => {
-  console.log(req.body);
-  res.send({ id: "123" });
+  const astraClient = await createClient({
+    astraDatabaseId: process.env.ASTRA_DB_ID,
+    astraDatabaseRegion: process.env.ASTRA_DB_REGION,
+    applicationToken: process.env.ASTRA_DB_APPLICATION_TOKEN,
+  });
+
+  const eventsCollection = astraClient
+    .namespace("angular")
+    .collection("events");
+
+  const event = await eventsCollection.create(req.body);
+
+  res.send({ id: event.documentId, ...req.body });
 });
 
-app.get("/events", (req, res) => {
-  res.send([
-    {
-      name: "Person 1",
-      eventName: "Event Name 1",
-      eventDescription: "Event Description 1",
-      eventDate: "Event Date 1",
-      eventUrl: "Event Url 1",
-    },
-    {
-      name: "Person 2",
-      eventName: "Event Name 3",
-      eventDescription: "Event Description 2",
-      eventDate: "Event Date 2",
-      eventUrl: "Event Url 2",
-    },
-  ]);
+app.get("/events", async (req, res) => {
+  const astraClient = await createClient({
+    astraDatabaseId: process.env.ASTRA_DB_ID,
+    astraDatabaseRegion: process.env.ASTRA_DB_REGION,
+    applicationToken: process.env.ASTRA_DB_APPLICATION_TOKEN,
+  });
+
+  const eventsCollection = astraClient
+    .namespace("angular")
+    .collection("events");
+
+  const events = await eventsCollection.find({});
+
+  const response = Object.keys(events).map((key) => ({
+    id: key,
+    ...events[key],
+  }));
+
+  console.log(response);
+  res.send(response);
 });
 
 app.listen(port, () => {
